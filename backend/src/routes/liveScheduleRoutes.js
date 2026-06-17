@@ -7,9 +7,9 @@ const {
 
 const router = express.Router();
 
-router.get('/', auth, role('LEADER', 'HOST'), getLiveSchedules);
-router.post('/', auth, role('LEADER'), createLiveSchedule);
-router.put('/:id', auth, role('LEADER'), updateLiveSchedule);
-router.delete('/:id', auth, role('LEADER'), deleteLiveSchedule);
+router.get('/', auth.authenticate, role('LEADER', 'HOST'), getLiveSchedules);
+router.post('/', auth.authenticate, role('LEADER'), createLiveSchedule);
+router.put('/:id', auth.authenticate, role('LEADER'), updateLiveSchedule);
+router.delete('/:id', auth.authenticate, role('LEADER'), deleteLiveSchedule);
 
 module.exports = router;

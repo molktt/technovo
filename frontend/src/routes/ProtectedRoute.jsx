@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children, roles }) => {
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
 
-  const role = user?.role?.trim().toUpperCase();
+  const role = (user?.role || '').toString().trim().toUpperCase();
 
   const redirect = {
     LEADER: '/leader/dashboard',

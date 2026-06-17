@@ -5,7 +5,7 @@ const { getReturns, createReturn } = require('../controllers/returnController');
 
 const router = express.Router();
 
-router.get('/', auth, role('LEADER', 'ADMIN'), getReturns);
-router.post('/', auth, role('LEADER', 'ADMIN'), createReturn);
+router.get('/', auth.authenticate, role('LEADER', 'ADMIN'), getReturns);
+router.post('/', auth.authenticate, role('LEADER', 'ADMIN'), createReturn);
 
 module.exports = router;

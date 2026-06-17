@@ -5,9 +5,9 @@ const { getUsers, createUser, updateUser, deleteUser } = require('../controllers
 
 const router = express.Router();
 
-router.get('/', auth, role('LEADER'), getUsers);
-router.post('/', auth, role('LEADER'), createUser);
-router.put('/:id', auth, role('LEADER'), updateUser);
-router.delete('/:id', auth, role('LEADER'), deleteUser);
+router.get('/', auth.authenticate, role('LEADER'), getUsers);
+router.post('/', auth.authenticate, role('LEADER'), createUser);
+router.put('/:id', auth.authenticate, role('LEADER'), updateUser);
+router.delete('/:id', auth.authenticate, role('LEADER'), deleteUser);
 
 module.exports = router;

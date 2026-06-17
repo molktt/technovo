@@ -5,6 +5,6 @@ const { getHostBonus } = require('../controllers/bonusController');
 
 const router = express.Router();
 
-router.get('/', auth, role('LEADER', 'HOST'), getHostBonus);
+router.get('/', auth.authenticate, role('LEADER', 'HOST'), getHostBonus);
 
 module.exports = router;

@@ -7,10 +7,10 @@ const {
 
 const router = express.Router();
 
-router.get('/', auth, getProducts);
-router.get('/:id', auth, getProductById);
-router.post('/', auth, role('LEADER', 'ADMIN'), createProduct);
-router.put('/:id', auth, role('LEADER', 'ADMIN'), updateProduct);
-router.delete('/:id', auth, role('LEADER'), deleteProduct);
+router.get('/', auth.authenticate, getProducts);
+router.get('/:id', auth.authenticate, getProductById);
+router.post('/', auth.authenticate, role('LEADER', 'ADMIN'), createProduct);
+router.put('/:id', auth.authenticate, role('LEADER', 'ADMIN'), updateProduct);
+router.delete('/:id', auth.authenticate, role('LEADER'), deleteProduct);
 
 module.exports = router;
