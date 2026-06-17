@@ -8,7 +8,7 @@ const getActivityLogs = async (req, res) => {
     const values = [];
 
     if (search) {
-      conditions.push('(al.action LIKE ? OR al.module LIKE ? OR al.description LIKE ? OR u.name LIKE ?)');
+      conditions.push('(al.action LIKE ? OR al.module LIKE ? OR al.description LIKE ? OR u.full_name LIKE ?)');
       values.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
     }
     if (module && module !== 'all') {
@@ -23,7 +23,7 @@ const getActivityLogs = async (req, res) => {
     const offset = (Math.max(parseInt(page, 10), 1) - 1) * parseInt(limit, 10);
 
     const [rows] = await pool.query(
-      `SELECT al.*, u.name AS user_name FROM activity_logs al
+      `SELECT al.*, u.full_name AS user_name FROM activity_logs al
        LEFT JOIN users u ON al.user_id = u.id
        ${where} ORDER BY al.${sort} ${order} LIMIT ? OFFSET ?`,
       [...values, parseInt(limit, 10), offset]

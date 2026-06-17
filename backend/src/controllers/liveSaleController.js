@@ -17,7 +17,7 @@ const getLiveSales = async (req, res) => {
     }
 
     if (search) {
-      conditions.push('(u.name LIKE ? OR pl.name LIKE ?)');
+      conditions.push('(u.full_name LIKE ? OR pl.name LIKE ?)');
       values.push(`%${search}%`, `%${search}%`);
     }
     if (status && status !== 'all') {
@@ -32,7 +32,7 @@ const getLiveSales = async (req, res) => {
     const offset = (Math.max(parseInt(page, 10), 1) - 1) * parseInt(limit, 10);
 
     const [rows] = await pool.query(
-      `SELECT ls.*, u.name AS host_name, pl.name AS platform_name, lsc.title AS schedule_title
+      `SELECT ls.*, u.full_name AS host_name, pl.name AS platform_name, lsc.title AS schedule_title
        FROM live_sales ls
        LEFT JOIN users u ON ls.host_id = u.id
        LEFT JOIN live_schedules lsc ON ls.schedule_id = lsc.id

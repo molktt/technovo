@@ -10,7 +10,7 @@ const getUsers = async (req, res) => {
     const values = [];
 
     if (search) {
-      conditions.push('(name LIKE ? OR email LIKE ?)');
+      conditions.push('(full_name LIKE ? OR email LIKE ?)');
       values.push(`%${search}%`, `%${search}%`);
     }
     if (role && role !== 'all') {
@@ -20,12 +20,12 @@ const getUsers = async (req, res) => {
 
     const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
     const order = sortOrder.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
-    const allowedSort = ['id', 'name', 'email', 'role', 'created_at'];
+    const allowedSort = ['id', 'full_name', 'email', 'role', 'created_at'];
     const sort = allowedSort.includes(sortBy) ? sortBy : 'id';
     const offset = (Math.max(parseInt(page, 10), 1) - 1) * parseInt(limit, 10);
 
     const [rows] = await pool.query(
-      `SELECT id, name, email, role, is_active, created_at FROM users ${where}
+      `SELECT id, full_name, email, role, is_active, created_at FROM users ${where}
        ORDER BY ${sort} ${order} LIMIT ? OFFSET ?`,
       [...values, parseInt(limit, 10), offset]
     );
@@ -39,18 +39,18 @@ const getUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
-    if (!name || !email || !password || !role) {
+    const { full_name, email, password, role } = req.body;
+    if (!full_name || !email || !password || !role) {
       return sendError(res, 'All fields are required', 400);
     }
 
     const hashed = await bcrypt.hash(password, 10);
     const [result] = await pool.query(
-      'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
-      [name, email, hashed, role]
+      'INSERT INTO users (full_name, email, password, role) VALUES (?, ?, ?, ?)',
+      [full_name, email, hashed, role]
     );
 
-    await logActivity(req.user.id, 'CREATE', 'Users', `Created user ${name}`);
+    await logActivity(req.user.id, 'CREATE', 'Users', `Created user ${full_name}`);
     return sendSuccess(res, { id: result.insertId }, 'User created successfully', 201);
   } catch (error) {
     if (error.code === 'ER_DUP_ENTRY') return sendError(res, 'Email already exists', 400);
@@ -60,7 +60,7 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const { name, email, password, role, is_active } = req.body;
+    const { full_name, email, password, role, is_active } = req.body;
     const { id } = req.params;
 
     const [existing] = await pool.query('SELECT id FROM users WHERE id = ?', [id]);
@@ -69,17 +69,17 @@ const updateUser = async (req, res) => {
     if (password) {
       const hashed = await bcrypt.hash(password, 10);
       await pool.query(
-        'UPDATE users SET name=?, email=?, password=?, role=?, is_active=? WHERE id=?',
-        [name, email, hashed, role, is_active ?? 1, id]
+        'UPDATE users SET full_name=?, email=?, password=?, role=?, is_active=? WHERE id=?',
+        [full_name, email, hashed, role, is_active ?? 1, id]
       );
     } else {
       await pool.query(
-        'UPDATE users SET name=?, email=?, role=?, is_active=? WHERE id=?',
-        [name, email, role, is_active ?? 1, id]
+        'UPDATE users SET full_name=?, email=?, role=?, is_active=? WHERE id=?',
+        [full_name, email, role, is_active ?? 1, id]
       );
     }
 
-    await logActivity(req.user.id, 'UPDATE', 'Users', `Updated user ${name}`);
+    await logActivity(req.user.id, 'UPDATE', 'Users', `Updated user ${full_name}`);
     return sendSuccess(res, null, 'User updated successfully');
   } catch (error) {
     return sendError(res, 'Failed to update user', 500);
@@ -88,11 +88,11 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const [existing] = await pool.query('SELECT name FROM users WHERE id = ?', [req.params.id]);
+    const [existing] = await pool.query('SELECT full_name FROM users WHERE id = ?', [req.params.id]);
     if (!existing.length) return sendError(res, 'User not found', 404);
 
     await pool.query('DELETE FROM users WHERE id = ?', [req.params.id]);
-    await logActivity(req.user.id, 'DELETE', 'Users', `Deleted user ${existing[0].name}`);
+    await logActivity(req.user.id, 'DELETE', 'Users', `Deleted user ${existing[0].full_name}`);
     return sendSuccess(res, null, 'User deleted successfully');
   } catch (error) {
     return sendError(res, 'Failed to delete user', 500);

@@ -22,7 +22,7 @@ const getHostBonus = async (req, res) => {
     const offset = (Math.max(parseInt(page, 10), 1) - 1) * parseInt(limit, 10);
 
     const [rows] = await pool.query(
-      `SELECT u.id AS host_id, u.name AS host_name,
+      `SELECT u.id AS host_id, u.full_name AS host_name,
               SUM(CASE WHEN c.name = 'Laptop' THEN lsi.quantity ELSE 0 END) AS laptop_qty,
               SUM(CASE WHEN c.name = 'Chromebook' THEN lsi.quantity ELSE 0 END) AS chromebook_qty,
               SUM(lsi.quantity * br.bonus_amount) AS total_bonus
@@ -33,7 +33,7 @@ const getHostBonus = async (req, res) => {
        LEFT JOIN categories c ON p.category_id = c.id
        LEFT JOIN bonus_rules br ON c.id = br.category_id
        ${where}
-       GROUP BY u.id, u.name
+       GROUP BY u.id, u.full_name
        ORDER BY ${sort} ${order}
        LIMIT ? OFFSET ?`,
       [...values, parseInt(limit, 10), offset]

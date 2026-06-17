@@ -24,7 +24,7 @@ const ScheduleModal = ({ open, onClose, onSave, editData, hosts, platforms }) =>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <TextField fullWidth select label="Host" {...register('host_id', { required: true })}>
-            {(hosts || []).map((h) => <MenuItem key={h.id} value={h.id}>{h.name}</MenuItem>)}
+            {(hosts || []).map((h) => <MenuItem key={h.id} value={h.id}>{h.full_name}</MenuItem>)}
           </TextField>
         </Grid>
         <Grid item xs={12} md={6}>

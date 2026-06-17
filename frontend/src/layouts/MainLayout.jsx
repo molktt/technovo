@@ -83,7 +83,7 @@ const SidebarContent = ({ collapsed, onNavigate = () => {} }) => {
       <Divider />
       <Box sx={{ p: 2 }}>
         {!collapsed && (
-          <Typography variant="body2" fontWeight={600} gutterBottom>{user?.name}</Typography>
+          <Typography variant="body2" fontWeight={600} gutterBottom>{user?.full_name}</Typography>
         )}
         <ListItemButton onClick={handleLogout} sx={{ borderRadius: 2 }}>
           <ListItemIcon sx={{ minWidth: 36 }}><LogoutIcon fontSize="small" /></ListItemIcon>

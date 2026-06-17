@@ -23,7 +23,7 @@ const getStockMovements = async (req, res) => {
     const offset = (Math.max(parseInt(page, 10), 1) - 1) * parseInt(limit, 10);
 
     const [rows] = await pool.query(
-      `SELECT sm.*, p.name AS product_name, p.sku, u.name AS created_by_name
+      `SELECT sm.*, p.name AS product_name, p.sku, u.full_name AS created_by_name
        FROM stock_movements sm
        LEFT JOIN products p ON sm.product_id = p.id
        LEFT JOIN users u ON sm.created_by = u.id

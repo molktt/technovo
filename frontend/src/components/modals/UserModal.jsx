@@ -8,14 +8,14 @@ const UserModal = ({ open, onClose, onSave, editData }) => {
 
   useEffect(() => {
     if (editData) reset({ ...editData, password: '' });
-    else reset({ name: '', email: '', password: '', role: 'HOST', is_active: 1 });
+    else reset({ full_name: '', email: '', password: '', role: 'HOST', is_active: 1 });
   }, [editData, open, reset]);
 
   return (
     <FormModal open={open} onClose={onClose} title={editData ? 'Edit User' : 'Add User'} onSubmit={handleSubmit(onSave)}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
-          <TextField fullWidth label="Name" {...register('name', { required: true })} error={!!errors.name} />
+          <TextField fullWidth label="Name" {...register('full_name', { required: true })} error={!!errors.full_name} />
         </Grid>
         <Grid item xs={12} md={6}>
           <TextField fullWidth label="Email" type="email" {...register('email', { required: true })} error={!!errors.email} />

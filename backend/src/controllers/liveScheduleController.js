@@ -17,7 +17,7 @@ const getLiveSchedules = async (req, res) => {
     }
 
     if (search) {
-      conditions.push('(ls.title LIKE ? OR u.name LIKE ? OR pl.name LIKE ?)');
+      conditions.push('(ls.title LIKE ? OR u.full_name LIKE ? OR pl.name LIKE ?)');
       values.push(`%${search}%`, `%${search}%`, `%${search}%`);
     }
     if (platform_id && platform_id !== 'all') {
@@ -36,7 +36,7 @@ const getLiveSchedules = async (req, res) => {
     const offset = (Math.max(parseInt(page, 10), 1) - 1) * parseInt(limit, 10);
 
     const [rows] = await pool.query(
-      `SELECT ls.*, u.name AS host_name, pl.name AS platform_name
+      `SELECT ls.*, u.full_name AS host_name, pl.name AS platform_name
        FROM live_schedules ls
        LEFT JOIN users u ON ls.host_id = u.id
        LEFT JOIN platforms pl ON ls.platform_id = pl.id

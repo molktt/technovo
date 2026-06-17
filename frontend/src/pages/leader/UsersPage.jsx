@@ -13,7 +13,7 @@ const UsersPage = () => {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const columns = [
-    { field: 'name', label: 'Name' },
+    { field: 'full_name', label: 'Name' },
     { field: 'email', label: 'Email' },
     { field: 'role', label: 'Role' },
     { field: 'is_active', label: 'Active', render: (r) => (r.is_active ? 'Yes' : 'No') },

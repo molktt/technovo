@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
+  full_name VARCHAR(100) NOT NULL,
   email VARCHAR(150) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
   role ENUM('LEADER','ADMIN','HOST') NOT NULL,
@@ -204,7 +204,7 @@ CREATE TABLE activity_logs (
 ) ENGINE=InnoDB;
 
 -- SEED: Users
-INSERT INTO users (name, email, password, role) VALUES
+INSERT INTO users (full_name, email, password, role) VALUES
 ('Sarif', 'sarif@technovo.id', '$2a$10$O8dLISGfdJEaM8pYUeh.1u58ZSH.uGqWC9/JRWUJ665yO8sckaRK.', 'LEADER'),
 ('Kiki', 'kiki@technovo.id', '$2a$10$O8dLISGfdJEaM8pYUeh.1u58ZSH.uGqWC9/JRWUJ665yO8sckaRK.', 'ADMIN'),
 ('Fifi', 'fifi@technovo.id', '$2a$10$O8dLISGfdJEaM8pYUeh.1u58ZSH.uGqWC9/JRWUJ665yO8sckaRK.', 'HOST'),

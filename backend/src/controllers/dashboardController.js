@@ -67,7 +67,8 @@ const getDashboardLeader = async (req, res) => {
 
     // Recent activities
     const [recentActivities] = await conn.query(
-      `SELECT al.id, u.name as user_name, al.action, al.module, al.created_at
+      `SELECT al.id, u.full_name as user_name, al.action, al.module, al.created_at
+      `SELECT al.id, u.full_name as user_name, al.action, al.module, al.created_at
        FROM activity_logs al
        JOIN users u ON al.user_id = u.id
        ORDER BY al.created_at DESC
@@ -164,7 +165,8 @@ const getDashboardAdmin = async (req, res) => {
 
     // Recent activities
     const [recentActivities] = await conn.query(
-      `SELECT al.id, u.name as user_name, al.action, al.module, al.created_at
+      `SELECT al.id, u.full_name as user_name, al.action, al.module, al.created_at
+      `SELECT al.id, u.full_name as user_name, al.action, al.module, al.created_at
        FROM activity_logs al
        JOIN users u ON al.user_id = u.id
        ORDER BY al.created_at DESC
@@ -284,7 +286,7 @@ const getDashboardHost = async (req, res) => {
 
     // Recent activities
     const [recentActivities] = await conn.query(
-      `SELECT al.id, u.name as user_name, al.action, al.module, al.created_at
+      `SELECT al.id, u.full_name as user_name, al.action, al.module, al.created_at
        FROM activity_logs al
        JOIN users u ON al.user_id = u.id
        WHERE u.id = ?
@@ -295,7 +297,7 @@ const getDashboardHost = async (req, res) => {
 
     // Recent live sales
     const [recentOrders] = await conn.query(
-      `SELECT ls.id, ls.sale_date as order_date, u.name as customer_name, p.name as platform_name, ls.total_amount
+      `SELECT ls.id, ls.sale_date as order_date, u.full_name as customer_name, p.name as platform_name, ls.total_amount
        FROM live_sales ls
        JOIN users u ON ls.host_id = u.id
        JOIN live_schedules lsch ON ls.schedule_id = lsch.id
