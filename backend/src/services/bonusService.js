@@ -10,7 +10,7 @@ const calculateHostBonus = async (hostId = null) => {
   }
 
   const [rows] = await pool.query(
-    `SELECT u.id AS host_id, u.name AS host_name,
+    `SELECT u.id AS host_id, u.full_name AS host_name,
             SUM(CASE WHEN c.name = 'Laptop' THEN lsi.quantity ELSE 0 END) AS laptop_qty,
             SUM(CASE WHEN c.name = 'Chromebook' THEN lsi.quantity ELSE 0 END) AS chromebook_qty,
             SUM(lsi.quantity * br.bonus_amount) AS total_bonus
@@ -21,7 +21,7 @@ const calculateHostBonus = async (hostId = null) => {
      LEFT JOIN categories c ON p.category_id = c.id
      LEFT JOIN bonus_rules br ON c.id = br.category_id
      WHERE u.role = 'HOST' ${hostId ? 'AND u.id = ?' : ''}
-     GROUP BY u.id, u.name`,
+     GROUP BY u.id, u.full_name`,
     hostId ? [hostId] : []
   );
 

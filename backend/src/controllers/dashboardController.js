@@ -68,7 +68,6 @@ const getDashboardLeader = async (req, res) => {
     // Recent activities
     const [recentActivities] = await conn.query(
       `SELECT al.id, u.full_name as user_name, al.action, al.module, al.created_at
-      `SELECT al.id, u.full_name as user_name, al.action, al.module, al.created_at
        FROM activity_logs al
        JOIN users u ON al.user_id = u.id
        ORDER BY al.created_at DESC
@@ -165,7 +164,6 @@ const getDashboardAdmin = async (req, res) => {
 
     // Recent activities
     const [recentActivities] = await conn.query(
-      `SELECT al.id, u.full_name as user_name, al.action, al.module, al.created_at
       `SELECT al.id, u.full_name as user_name, al.action, al.module, al.created_at
        FROM activity_logs al
        JOIN users u ON al.user_id = u.id
