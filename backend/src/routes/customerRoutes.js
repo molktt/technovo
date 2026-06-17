@@ -5,6 +5,6 @@ const { getCustomers } = require('../controllers/customerController');
 
 const router = express.Router();
 
-router.get('/', auth, role('ADMIN', 'LEADER'), getCustomers);
+router.get('/', auth.authenticate, role('ADMIN', 'LEADER'), getCustomers);
 
 module.exports = router;

@@ -5,6 +5,6 @@ const { getStockMovements } = require('../controllers/stockMovementController');
 
 const router = express.Router();
 
-router.get('/', auth, role('LEADER', 'ADMIN'), getStockMovements);
+router.get('/', auth.authenticate, role('LEADER', 'ADMIN'), getStockMovements);
 
 module.exports = router;

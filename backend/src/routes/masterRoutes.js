@@ -4,6 +4,6 @@ const { getMasterData } = require('../controllers/masterController');
 
 const router = express.Router();
 
-router.get('/', auth, getMasterData);
+router.get('/', auth.authenticate, getMasterData);
 
 module.exports = router;

@@ -72,7 +72,7 @@ const login = async (req, res) => {
         id: user.id,
         email: user.email,
         role: user.role,
-        full_name: user.full_name
+        name: user.name
       },
       process.env.JWT_SECRET,
       {
@@ -90,8 +90,7 @@ const login = async (req, res) => {
         id: user.id,
         email: user.email,
         role: user.role,
-        full_name: user.full_name,
-        phone_number: user.phone_number
+        name: user.name
       }
     });
 
@@ -121,8 +120,7 @@ const getCurrentUser = async (req, res) => {
         id,
         email,
         role,
-        full_name,
-        phone_number,
+        name,
         is_active
       FROM users
       WHERE id = ?`,

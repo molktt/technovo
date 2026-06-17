@@ -5,6 +5,6 @@ const { getActivityLogs } = require('../controllers/activityLogController');
 
 const router = express.Router();
 
-router.get('/', auth, role('LEADER'), getActivityLogs);
+router.get('/', auth.authenticate, role('LEADER'), getActivityLogs);
 
 module.exports = router;

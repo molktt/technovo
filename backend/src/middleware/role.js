@@ -4,7 +4,10 @@ const roleMiddleware = (...allowedRoles) => {
       return res.status(401).json({ success: false, message: 'Unauthorized' });
     }
 
-    if (!allowedRoles.includes(req.user.role)) {
+    const userRole = (req.user.role || '').toString().trim().toUpperCase();
+    const normalizedRoles = allowedRoles.map(r => r.toUpperCase());
+
+    if (!normalizedRoles.includes(userRole)) {
       return res.status(403).json({ success: false, message: 'Forbidden - Insufficient permissions' });
     }
 
